@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Log-Analyzer-Bot Output",
+  "description": "Machine-readable CI/CD failure diagnosis. Always a flat JSON object — no markdown wrapper, no code fences.",
+  "type": "object",
+  "required": ["status", "error_summary", "failing_step", "affected_file", "suggested_fix"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["failed", "passed"],
+      "description": "\"failed\" when a failure is detected; \"passed\" when the log contains no errors."
+    },
+    "error_summary": {
+      "type": "string",
+      "description": "One sentence, maximum 20 words. Describes the root cause failure. No hedging language.",
+      "maxLength": 200
+    },
+    "failing_step": {
+      "type": "string",
+      "description": "The CI step name or tool that failed (e.g. \"flake8\", \"CodeQL Analysis\", \"npm install\", \"pytest\"). \"N/A\" when status is \"passed\"."
+    },
+    "affected_file": {
+      "type": "string",
+      "description": "File path and line number in the format \"path/to/file.ext:NN\". Omit \":NN\" if line number is unavailable. \"N/A\" if no specific file is implicated or status is \"passed\".",
+      "examples": ["scraper.py:42", "src/auth_module.js:15", "N/A"]
+    },
+    "suggested_fix": {
+      "type": "string",
+      "description": "A specific, executable CLI command or minimal code patch. Abstract recommendations are not permitted. \"N/A\" when status is \"passed\".",
+      "examples": [
+        "autopep8 --in-place --aggressive scraper.py",
+        "npm install express",
+        "Replace the literal credential with process.env.CREDENTIAL_NAME and add CREDENTIAL_NAME to your CI environment secrets."
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "constraints": {
+    "output_format": "Raw JSON only. No markdown code fences. No surrounding text.",
+    "fix_quality": "suggested_fix must be a runnable command or patch derivable from the log alone.",
+    "file_format": "affected_file must match pattern path:line or be N/A.",
+    "summary_length": "error_summary must not exceed 20 words."
+  }
+}

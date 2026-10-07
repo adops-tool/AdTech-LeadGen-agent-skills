@@ -1,0 +1,37 @@
+{
+  "skill_name": "log-analyzer-bot",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze log: \"Run flake8 .\nscraper.py:42:1: E101 indentation contains mixed spaces and tabs\nscraper.py:42:1: W191 indentation contains tabs\nFailed: flake8 check\"",
+      "expected_output": "JSON object with failing_step referencing flake8 or linting, affected_file containing scraper.py with line number, and suggested_fix containing an indentation correction command.",
+      "files": [],
+      "assertions": [
+        "failing_step contains flake8 or failing_step contains linting",
+        "affected_file contains scraper.py",
+        "suggested_fix contains indent or suggested_fix contains autopep8 or suggested_fix contains flake8"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Analyze log: \"Initializing CodeQL\nAnalyzing auth_module.js\nauth_module.js:15: Hardcoded credential detected (CWE-798)\nCodeQL Analysis FAILED\"",
+      "expected_output": "JSON object with failing_step referencing CodeQL, affected_file containing auth_module.js with line 15, and suggested_fix referencing environment variables.",
+      "files": [],
+      "assertions": [
+        "failing_step contains CodeQL",
+        "affected_file contains auth_module.js",
+        "suggested_fix contains env or suggested_fix contains process.env or suggested_fix contains environment variable"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Analyze log: \"\\n> node index.js\\nError: Cannot find module 'express'\\nnpm ERR! missing: express\\nnpm ERR! peer dep missing: express@^4.0.0\"",
+      "expected_output": "JSON object with suggested_fix containing npm install express, and error_summary mentioning express or module.",
+      "files": [],
+      "assertions": [
+        "suggested_fix contains npm install",
+        "error_summary contains express or error_summary contains module"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Log-Analyzer-Bot Input",
+  "description": "Raw terminal or CI/CD log output to be analyzed for failures.",
+  "type": "object",
+  "required": ["log"],
+  "properties": {
+    "log": {
+      "type": "string",
+      "description": "Raw log string. May include multi-line terminal output, GitHub Actions step logs, npm/pip error output, linter reports, security scanner output, or any CI/CD pipeline output. Passed verbatim — no preprocessing required.",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "log": "Run flake8 .\nscraper.py:42:1: E101 indentation contains mixed spaces and tabs\nFailed: flake8 check"
+    },
+    {
+      "log": "Analyzing auth_module.js\nauth_module.js:15: Hardcoded credential detected (CWE-798)\nCodeQL Analysis FAILED"
+    },
+    {
+      "log": "Error: Cannot find module 'express'\nnpm ERR! missing: express"
+    }
+  ]
+}
