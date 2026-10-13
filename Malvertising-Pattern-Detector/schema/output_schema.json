@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MalvertisingPatternDetectorOutput",
+  "description": "Structured threat assessment for a JavaScript ad creative.",
+  "type": "object",
+  "required": ["threat_level", "detected_patterns", "unauthorized_domains_found"],
+  "additionalProperties": false,
+  "properties": {
+    "threat_level": {
+      "type": "string",
+      "enum": ["Safe", "Suspicious", "Malicious"],
+      "description": "Overall threat classification. Safe = no issues found. Suspicious = potential risk, requires review. Malicious = confirmed harmful pattern present."
+    },
+    "detected_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "auto-redirect",
+          "hidden iframe",
+          "forced popup",
+          "eval-obfuscation",
+          "data exfiltration",
+          "cryptomining-indicator",
+          "malware-download",
+          "activex-exploit",
+          "cookie-theft",
+          "base64",
+          "encoding-obfuscation",
+          "string-eval-timer",
+          "dynamic-function",
+          "dynamic-script-inject",
+          "storage-exfil-risk",
+          "hex-obfuscation",
+          "pixel-tracking"
+        ]
+      },
+      "uniqueItems": true,
+      "description": "List of detected pattern labels. Empty array if none found."
+    },
+    "unauthorized_domains_found": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9.-]+\\.[a-z]{2,}$"
+      },
+      "uniqueItems": true,
+      "description": "Bare hostnames explicitly present in the code that are not on the known-safe allowlist. Empty array if none found."
+    }
+  },
+  "examples": [
+    {
+      "threat_level": "Safe",
+      "detected_patterns": [],
+      "unauthorized_domains_found": []
+    },
+    {
+      "threat_level": "Malicious",
+      "detected_patterns": ["hidden iframe"],
+      "unauthorized_domains_found": ["cryptominer-evil.xyz"]
+    },
+    {
+      "threat_level": "Suspicious",
+      "detected_patterns": ["base64"],
+      "unauthorized_domains_found": []
+    },
+    {
+      "threat_level": "Malicious",
+      "detected_patterns": ["eval-obfuscation", "forced popup"],
+      "unauthorized_domains_found": ["spam-offer.biz"]
+    }
+  ]
+}

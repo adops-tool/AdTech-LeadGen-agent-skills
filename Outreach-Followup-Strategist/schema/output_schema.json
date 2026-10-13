@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OutreachFollowupOutput",
+  "description": "Output for a generated publisher outreach follow-up email.",
+  "type": "object",
+  "required": ["followup_subject_line", "followup_body", "new_technical_value_provided"],
+  "additionalProperties": false,
+  "properties": {
+    "followup_subject_line": {
+      "type": "string",
+      "description": "Email subject line. Should be specific, value-forward, and avoid generic phrases.",
+      "minLength": 5
+    },
+    "followup_body": {
+      "type": "string",
+      "description": "Full plain-text email body. Must reference the platform as a Google Authorized Buyer (GAB). Must not contain forbidden phrases. Day 7 must include referral request.",
+      "minLength": 50
+    },
+    "new_technical_value_provided": {
+      "type": "string",
+      "description": "One-sentence summary of the new technical insight introduced in this follow-up that was not present in the previous email.",
+      "minLength": 10
+    }
+  },
+  "errorResponse": {
+    "type": "object",
+    "description": "Returned when input is invalid (e.g. unknown step value).",
+    "required": ["error"],
+    "properties": {
+      "error": {
+        "type": "string"
+      }
+    }
+  }
+}

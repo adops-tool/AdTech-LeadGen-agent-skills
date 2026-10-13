@@ -1,0 +1,27 @@
+{
+  "skill_name": "Outreach-Followup-Strategist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate follow-up: {\"publisher_domain\":\"media.com\",\"step\":\"day_3\",\"previous_email_sent\":\"We are a Google Authorized Buyer and can help improve your programmatic yield...\"}",
+      "expected_output": "A JSON object with followup_subject_line, followup_body, and new_technical_value_provided. The body must reference GAB or Google Authorized Buyer, must not contain 'checking in' or 'bubbling', and new_technical_value_provided must not be empty.",
+      "files": [],
+      "assertions": [
+        "followup_body contains GAB OR Google Authorized Buyer",
+        "followup_body not contains checking in",
+        "followup_body not contains bubbling",
+        "new_technical_value_provided is not empty"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate follow-up: {\"publisher_domain\":\"news.net\",\"step\":\"day_7\",\"previous_email_sent\":\"We offer direct GAB demand...\"}",
+      "expected_output": "A JSON object with followup_subject_line, followup_body, and new_technical_value_provided. The body must include a referral request (AdOps, colleague, or team), and new_technical_value_provided must not be empty.",
+      "files": [],
+      "assertions": [
+        "new_technical_value_provided is not empty",
+        "followup_body contains AdOps OR colleague OR team"
+      ]
+    }
+  ]
+}

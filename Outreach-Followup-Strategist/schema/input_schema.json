@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OutreachFollowupInput",
+  "description": "Input for generating a B2B publisher outreach follow-up email.",
+  "type": "object",
+  "required": ["publisher_domain", "step", "previous_email_sent"],
+  "additionalProperties": false,
+  "properties": {
+    "publisher_domain": {
+      "type": "string",
+      "description": "The publisher's website domain, e.g. 'media.com' or 'news.net'.",
+      "examples": ["media.com", "techdigest.io", "newsweekly.net"]
+    },
+    "step": {
+      "type": "string",
+      "enum": ["day_3", "day_7"],
+      "description": "The sequence step. 'day_3' = second touch, 'day_7' = final brief attempt with referral request."
+    },
+    "previous_email_sent": {
+      "type": "string",
+      "description": "Full text of the initial cold outreach email that was sent to the publisher.",
+      "minLength": 10
+    }
+  }
+}

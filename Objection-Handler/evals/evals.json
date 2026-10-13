@@ -1,0 +1,46 @@
+{
+  "skill_name": "Objection-Handler",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Handle: {\"publisher_domain\":\"techblog.com\",\"raw_email_reply\":\"We already use AdSense and are happy.\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "objection_category == AdSense",
+        "response_body contains GAB OR Google Authorized Buyer",
+        "response_body not contains hope"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Handle: {\"publisher_domain\":\"news24.net\",\"raw_email_reply\":\"Our developers are busy. Is the setup heavy?\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "objection_category == Integration",
+        "response_body contains Prebid OR GAM"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Handle: {\"publisher_domain\":\"media.io\",\"raw_email_reply\":\"Our RPM dropped after switching SSPs.\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "objection_category == RPM",
+        "response_body contains bid density OR header bidding"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Handle: {\"publisher_domain\":\"blog.com\",\"raw_email_reply\":\"Take us off your list.\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "objection_category == Hard_No",
+        "response_body == null OR response_body length < 50"
+      ]
+    }
+  ]
+}

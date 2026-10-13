@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ObjectionHandlerOutput",
+  "type": "object",
+  "required": ["objection_category", "analysis", "response_subject", "response_body"],
+  "additionalProperties": false,
+  "properties": {
+    "objection_category": {
+      "type": "string",
+      "enum": ["RPM", "Integration", "AdSense", "Hard_No", "Other"],
+      "description": "Classified objection type derived from the publisher's reply."
+    },
+    "analysis": {
+      "type": "string",
+      "description": "Internal technical read of the objection. 1–3 sentences. Not sent to the publisher — for strategist review only."
+    },
+    "response_subject": {
+      "type": "string",
+      "description": "Ready-to-use email subject line. For Hard_No: 'Removed: [publisher_domain]'."
+    },
+    "response_body": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Ready-to-send email body. Must reference 'Google Authorized Buyer' or 'GAB'. Must not contain forbidden filler phrases."
+        },
+        {
+          "type": "null",
+          "description": "Null for Hard_No objections. No re-pitch is ever written for explicit opt-outs."
+        }
+      ]
+    }
+  }
+}

