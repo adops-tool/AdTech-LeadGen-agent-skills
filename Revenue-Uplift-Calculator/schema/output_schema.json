@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Revenue-Uplift-Calculator Output",
+  "description": "Projected RPM, monthly revenue uplift, and GAB technical talking points.",
+  "type": "object",
+  "required": ["projected_rpm_usd", "estimated_monthly_revenue_uplift_usd", "technical_talking_points"],
+  "additionalProperties": false,
+  "properties": {
+    "projected_rpm_usd": {
+      "type": "number",
+      "description": "Projected RPM in USD after GAB integration. Always >= current_estimated_rpm_usd.",
+      "minimum": 0
+    },
+    "estimated_monthly_revenue_uplift_usd": {
+      "type": "number",
+      "description": "Estimated incremental monthly revenue in USD attributable to GAB integration. Minimum 0.",
+      "minimum": 0
+    },
+    "technical_talking_points": {
+      "type": "array",
+      "description": "3–5 concise, data-referenced talking points for publisher outreach. Must attribute uplift to Google Authorized Buyer (GAB). Tier-3 must include traffic quality / limited demand language.",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 200
+      }
+    }
+  }
+}

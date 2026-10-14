@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Revenue-Uplift-Calculator Input",
+  "description": "Input parameters for GAB revenue uplift calculation.",
+  "type": "object",
+  "required": ["domain", "monthly_pageviews", "current_estimated_rpm_usd", "geo_tier"],
+  "additionalProperties": false,
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "Publisher domain name (e.g. 'bignews.com').",
+      "minLength": 1
+    },
+    "monthly_pageviews": {
+      "type": "integer",
+      "description": "Total monthly pageviews for the domain.",
+      "minimum": 1
+    },
+    "current_estimated_rpm_usd": {
+      "type": "number",
+      "description": "Current estimated revenue per 1000 impressions in USD.",
+      "minimum": 0
+    },
+    "geo_tier": {
+      "type": "string",
+      "description": "GEO quality tier: '1' = Tier-1 (US/CA/UK/AU/DE), '2' = Tier-2 (moderate markets), '3' = Tier-3 (low-value/proxy traffic).",
+      "enum": ["1", "2", "3"]
+    }
+  }
+}

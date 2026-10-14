@@ -1,0 +1,39 @@
+{
+  "skill_name": "revenue-uplift-calculator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Calculate: {\"domain\":\"bignews.com\",\"monthly_pageviews\":2000000,\"current_estimated_rpm_usd\":2.00,\"geo_tier\":\"1\"}",
+      "expected_output": "JSON object with projected_rpm_usd > 2.00, positive monthly uplift, and talking points referencing Google Authorized Buyer or GAB.",
+      "files": [],
+      "assertions": [
+        "projected_rpm_usd is greater than 2.00",
+        "estimated_monthly_revenue_uplift_usd is greater than 0",
+        "technical_talking_points contains the string 'GAB' or 'Google Authorized Buyer'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Calculate: {\"domain\":\"proxy.xyz\",\"monthly_pageviews\":5000000,\"current_estimated_rpm_usd\":0.10,\"geo_tier\":\"3\"}",
+      "expected_output": "JSON object with non-negative uplift and talking points explicitly flagging Tier-3 traffic quality limitations for GAB demand.",
+      "files": [],
+      "assertions": [
+        "estimated_monthly_revenue_uplift_usd is greater than or equal to 0",
+        "technical_talking_points contains 'traffic quality' or 'limited' or 'Tier-3'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Calculate: {\"domain\":\"lifeblog.com\",\"monthly_pageviews\":500000,\"current_estimated_rpm_usd\":1.00,\"geo_tier\":\"2\"}",
+      "expected_output": "JSON object with projected_rpm_usd > 1.00 and at least 2 technical talking points.",
+      "files": [],
+      "assertions": [
+        "projected_rpm_usd is greater than 1.00",
+        "technical_talking_points array has length greater than 1",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    }
+  ]
+}
