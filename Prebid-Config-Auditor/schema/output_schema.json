@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prebid-Config-Auditor Output",
+  "description": "Machine-readable Prebid.js configuration audit result. Raw JSON only — no markdown fences, no surrounding text.",
+  "type": "object",
+  "required": [
+    "audit_status",
+    "timeout_analysis",
+    "bidder_density_warnings",
+    "granularity_check",
+    "optimized_config_recommendation"
+  ],
+  "properties": {
+    "audit_status": {
+      "type": "string",
+      "enum": ["Pass", "Needs_Optimization", "Critical_Issues"],
+      "description": "Overall audit verdict. Pass: all checks within acceptable range. Needs_Optimization: one warning present. Critical_Issues: timeout violation + density violation simultaneously, OR priceGranularity == 'low'."
+    },
+    "timeout_analysis": {
+      "type": "string",
+      "description": "States the bidderTimeout value, its classification (too slow / too aggressive / acceptable), and the performance impact. Must reference the numeric value from the input."
+    },
+    "bidder_density_warnings": {
+      "type": "array",
+      "description": "One string per ad unit that violates density rules (>8 bidders = LATENCY_RISK, <2 bidders = UNDERFILLED). Empty array when all ad units are within 2–8 bidders.",
+      "items": {
+        "type": "string",
+        "description": "Format: \"Ad unit '<code>': <N> bidders — <LATENCY_RISK|UNDERFILLED>. <impact sentence>.\""
+      }
+    },
+    "granularity_check": {
+      "type": "string",
+      "description": "States the priceGranularity value, its classification, and the revenue impact. Flags 'low' granularity explicitly."
+    },
+    "optimized_config_recommendation": {
+      "type": "object",
+      "required": ["bidderTimeout", "priceGranularity", "notes"],
+      "properties": {
+        "bidderTimeout": {
+          "type": "integer",
+          "description": "Recommended bidderTimeout in ms. 1200 when current value is outside 500–2000ms; current value otherwise.",
+          "minimum": 500,
+          "maximum": 2000
+        },
+        "priceGranularity": {
+          "description": "Recommended priceGranularity value. 'dense' when current is 'low' or 'medium'; current value otherwise.",
+          "oneOf": [
+            { "type": "string", "enum": ["low", "medium", "high", "auto", "dense"] },
+            { "type": "object" }
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "description": "One sentence explaining the highest-priority recommended change and its expected impact."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "constraints": {
+    "output_format": "Raw JSON only. No markdown code fences. No surrounding text.",
+    "audit_status_logic": "Critical_Issues requires (timeout_violation AND density_violation) OR priceGranularity=='low'. Needs_Optimization requires any single warning. Pass requires all checks clean.",
+    "timeout_analysis_must_include": "The numeric bidderTimeout value from the input.",
+    "recommendation_timeout_range": "bidderTimeout in recommendation must be between 500 and 2000 inclusive."
+  }
+}

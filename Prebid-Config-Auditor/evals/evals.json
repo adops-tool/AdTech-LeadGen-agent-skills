@@ -1,0 +1,35 @@
+{
+  "skill_name": "prebid-config-auditor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit: {\"bidderTimeout\":3500,\"priceGranularity\":\"custom\",\"adUnits\":[{\"code\":\"banner\",\"bids\":[{\"bidder\":\"a\"},{\"bidder\":\"b\"},{\"bidder\":\"c\"},{\"bidder\":\"d\"},{\"bidder\":\"e\"},{\"bidder\":\"f\"},{\"bidder\":\"g\"},{\"bidder\":\"h\"},{\"bidder\":\"i\"},{\"bidder\":\"j\"},{\"bidder\":\"k\"},{\"bidder\":\"l\"}]}]}",
+      "expected_output": "JSON audit with Critical_Issues status. bidderTimeout 3500ms flagged as too slow. 12 bidders on the banner unit flagged as LATENCY_RISK. Recommendation sets bidderTimeout to 1200.",
+      "files": [],
+      "assertions": [
+        "audit_status == Critical_Issues",
+        "timeout_analysis contains 3500 or timeout_analysis contains too slow or timeout_analysis contains high",
+        "bidder_density_warnings length > 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit: {\"bidderTimeout\":400,\"priceGranularity\":\"dense\",\"adUnits\":[{\"code\":\"banner\",\"bids\":[{\"bidder\":\"a\"},{\"bidder\":\"b\"}]}]}",
+      "expected_output": "JSON audit with Needs_Optimization status. bidderTimeout 400ms flagged as too aggressive or low. No bidder density warnings. priceGranularity dense accepted as optimal.",
+      "files": [],
+      "assertions": [
+        "audit_status == Needs_Optimization",
+        "timeout_analysis contains 400 or timeout_analysis contains too aggressive or timeout_analysis contains low"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit: {\"bidderTimeout\":1200,\"priceGranularity\":\"dense\",\"adUnits\":[{\"code\":\"banner\",\"bids\":[{\"bidder\":\"a\"},{\"bidder\":\"b\"},{\"bidder\":\"c\"},{\"bidder\":\"d\"},{\"bidder\":\"e\"}]}]}",
+      "expected_output": "JSON audit with Pass status. All checks within acceptable ranges. Empty bidder_density_warnings array. No recommended changes.",
+      "files": [],
+      "assertions": [
+        "audit_status == Pass"
+      ]
+    }
+  ]
+}

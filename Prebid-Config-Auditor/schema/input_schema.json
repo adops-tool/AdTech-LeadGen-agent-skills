@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prebid-Config-Auditor Input",
+  "description": "A Prebid.js configuration payload combining pbjs.setConfig() fields and adUnits definitions.",
+  "type": "object",
+  "properties": {
+    "bidderTimeout": {
+      "type": "integer",
+      "description": "Auction timeout in milliseconds. Maps to pbjs.setConfig({ bidderTimeout }). Prebid default is 3000ms.",
+      "minimum": 0,
+      "examples": [400, 1200, 3500]
+    },
+    "priceGranularity": {
+      "description": "Price granularity setting. Either a named preset string or a custom bucket object.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["low", "medium", "high", "auto", "dense"],
+          "description": "Named Prebid.js price granularity preset."
+        },
+        {
+          "type": "object",
+          "description": "Custom granularity bucket configuration.",
+          "properties": {
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "precision": { "type": "integer" },
+                  "min": { "type": "number" },
+                  "max": { "type": "number" },
+                  "increment": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "adUnits": {
+      "type": "array",
+      "description": "Array of Prebid.js adUnit objects defining inventory and bidder configurations.",
+      "items": {
+        "type": "object",
+        "required": ["code", "bids"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Unique identifier for the ad unit (div ID or slot name)."
+          },
+          "bids": {
+            "type": "array",
+            "description": "Array of bidder configurations for this ad unit.",
+            "items": {
+              "type": "object",
+              "required": ["bidder"],
+              "properties": {
+                "bidder": {
+                  "type": "string",
+                  "description": "Prebid.js bidder adapter name (e.g. 'appnexus', 'rubicon')."
+                },
+                "params": {
+                  "type": "object",
+                  "description": "Bidder-specific parameters."
+                }
+              }
+            }
+          },
+          "mediaTypes": {
+            "type": "object",
+            "description": "Media type definitions (banner, video, native)."
+          }
+        }
+      }
+    },
+    "currency": {
+      "type": "object",
+      "description": "Currency conversion configuration (noted but not audited)."
+    },
+    "userSync": {
+      "type": "object",
+      "description": "User sync configuration (noted but not audited)."
+    },
+    "enableSendAllBids": {
+      "type": "boolean",
+      "description": "Whether to send all bids to the ad server."
+    }
+  },
+  "additionalProperties": true,
+  "examples": [
+    {
+      "bidderTimeout": 1200,
+      "priceGranularity": "dense",
+      "adUnits": [
+        {
+          "code": "div-banner-1",
+          "bids": [
+            { "bidder": "appnexus", "params": { "placementId": 12345 } },
+            { "bidder": "rubicon", "params": { "accountId": 1001, "siteId": 2001, "zoneId": 3001 } }
+          ]
+        }
+      ]
+    }
+  ]
+}
