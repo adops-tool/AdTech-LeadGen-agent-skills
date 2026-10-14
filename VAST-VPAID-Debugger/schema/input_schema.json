@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VAST-VPAID-Debugger Input",
+  "description": "Raw VAST XML payload or VPAID JavaScript snippet to be analysed.",
+  "type": "string",
+  "minLength": 1,
+  "examples": [
+    "<?xml version=\"1.0\"?><VAST version=\"4.0\"><Ad><InLine><AdSystem>DSP</AdSystem><Impression>https://t.example.com/imp</Impression><Creatives><Creative><Linear><Duration>00:00:30</Duration><MediaFiles><MediaFile type=\"video/mp4\">https://cdn.example.com/ad.mp4</MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>",
+    "<?xml version=\"1.0\"?><VAST version=\"3.0\"><Ad><Wrapper><VASTAdTagURI>https://redirect.example.com/vast</VASTAdTagURI></Wrapper></Ad></VAST>",
+    "var VPAIDCreative = function() {}; VPAIDCreative.prototype.initAd = function(w,h,viewMode,desiredBitrate,creativeData,environmentVars) {}; VPAIDCreative.prototype.startAd = function() {}; VPAIDCreative.prototype.getAdLinear = function() { return true; }; VPAIDCreative.prototype.subscribe = function(fn,evt,ctx) {};"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VAST-VPAID-Debugger Output",
+  "description": "Structured diagnostic result from the VAST-VPAID-Debugger skill.",
+  "type": "object",
+  "required": ["tag_type", "is_valid", "critical_errors", "latency_warnings"],
+  "additionalProperties": false,
+  "properties": {
+    "tag_type": {
+      "type": "string",
+      "enum": ["VAST_Inline", "VAST_Wrapper", "VPAID", "Unknown"],
+      "description": "Detected payload type. VAST_Inline = contains <InLine> element. VAST_Wrapper = contains <Wrapper> and <VASTAdTagURI> but no <InLine>. VPAID = non-XML JS with VPAID API surface. Unknown = unrecognised payload."
+    },
+    "is_valid": {
+      "type": "boolean",
+      "description": "True only when critical_errors is empty AND tag_type is not Unknown. False in all other cases."
+    },
+    "critical_errors": {
+      "type": "array",
+      "description": "Structural violations that would cause the ad not to serve. Each entry must name the specific missing or invalid XML node or attribute.",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "latency_warnings": {
+      "type": "array",
+      "description": "Non-fatal issues that increase latency risk or reduce fill rate. Each entry must reference the specific node or chain depth.",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    }
+  }
+}

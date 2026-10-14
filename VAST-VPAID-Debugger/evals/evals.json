@@ -1,0 +1,44 @@
+{
+  "skill_name": "vast-vpaid-debugger",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Debug VAST: \"<?xml version=\\\"1.0\\\"?><VAST version=\\\"4.0\\\"><Ad><InLine><AdSystem>Test</AdSystem><MediaFiles><MediaFile type=\\\"video/mp4\\\">url</MediaFile></MediaFiles></InLine></Ad></VAST>\"",
+      "expected_output": "JSON object with tag_type=VAST_Inline, is_valid=false, critical_errors containing a message about missing Impression or tracking, latency_warnings array present",
+      "files": [],
+      "assertions": [
+        "tag_type == 'VAST_Inline'",
+        "is_valid == false",
+        "at least one entry in critical_errors mentions 'Impression' OR 'tracking'",
+        "critical_errors is a non-empty array",
+        "latency_warnings is an array (may be empty)",
+        "output is valid JSON with no surrounding prose"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Debug VAST: \"<?xml version=\\\"1.0\\\"?><VAST version=\\\"3.0\\\"><Ad><Wrapper><Impression>https://w1.track.com/imp</Impression><VASTAdTagURI>http://r1.com/vast.xml</VASTAdTagURI><Wrapper><VASTAdTagURI>http://r2.com/vast.xml</VASTAdTagURI></Wrapper></Wrapper></Ad></VAST>\"",
+      "expected_output": "JSON object with tag_type=VAST_Wrapper, latency_warnings containing at least one entry about wrapper chain depth or redirect hops",
+      "files": [],
+      "assertions": [
+        "tag_type == 'VAST_Wrapper'",
+        "latency_warnings is an array with length > 0",
+        "at least one entry in latency_warnings mentions 'depth' OR 'chain' OR 'hop' OR 'redirect' OR 'Wrapper'",
+        "output is valid JSON with no surrounding prose"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Debug VAST: \"<?xml version=\\\"1.0\\\"?><VAST version=\\\"4.0\\\"><Ad><InLine><AdSystem>DSP</AdSystem><AdTitle>Demo Ad</AdTitle><Impression>http://track.com/imp</Impression><Creatives><Creative><Linear><Duration>00:00:30</Duration><MediaFiles><MediaFile type=\\\"video/mp4\\\">https://cdn.example.com/ad.mp4</MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>\"",
+      "expected_output": "JSON object with is_valid=true and critical_errors=[]",
+      "files": [],
+      "assertions": [
+        "is_valid == true",
+        "critical_errors == []",
+        "tag_type == 'VAST_Inline'",
+        "latency_warnings is an array (may contain non-critical warnings)",
+        "output is valid JSON with no surrounding prose"
+      ]
+    }
+  ]
+}
