@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SSP-API-Normalizer Output",
+  "description": "Normalized monetization data unified across SSP sources.",
+  "type": "object",
+  "required": ["normalized_data", "data_integrity_warnings"],
+  "additionalProperties": false,
+  "properties": {
+    "normalized_data": {
+      "type": "array",
+      "description": "One entry per date row found in the raw payload.",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["date", "ad_requests", "impressions", "revenue_usd", "ecpm_usd"],
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": ["string", "null"],
+            "description": "Report date normalized to ISO 8601 (YYYY-MM-DD). Null if date could not be parsed.",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "ad_requests": {
+            "type": "integer",
+            "description": "Total ad requests (bid requests) sent to the SSP. 0 if not present in payload.",
+            "minimum": 0
+          },
+          "impressions": {
+            "type": "integer",
+            "description": "Total impressions served (wins/fills). 0 if not present in payload.",
+            "minimum": 0
+          },
+          "revenue_usd": {
+            "type": "number",
+            "description": "Gross publisher revenue in USD. Calculated as (ecpm_usd / 1000) × impressions if not directly present.",
+            "minimum": 0
+          },
+          "ecpm_usd": {
+            "type": "number",
+            "description": "Effective CPM in USD. Calculated as (revenue_usd / impressions) × 1000 if not directly present.",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "data_integrity_warnings": {
+      "type": "array",
+      "description": "List of warnings about missing fields, reformatted dates, derived metrics, or data quality issues. Empty array if no issues detected.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "examples": [
+    {
+      "normalized_data": [
+        {
+          "date": "2024-01-15",
+          "ad_requests": 12000,
+          "impressions": 10000,
+          "revenue_usd": 25.5,
+          "ecpm_usd": 2.55
+        }
+      ],
+      "data_integrity_warnings": [
+        "ecpm_usd: calculated from revenue_usd and impressions"
+      ]
+    },
+    {
+      "normalized_data": [
+        {
+          "date": "2024-01-15",
+          "ad_requests": 5000,
+          "impressions": 4500,
+          "revenue_usd": 9.0,
+          "ecpm_usd": 2.0
+        }
+      ],
+      "data_integrity_warnings": [
+        "revenue_usd: calculated from ecpm_usd and impressions"
+      ]
+    }
+  ]
+}

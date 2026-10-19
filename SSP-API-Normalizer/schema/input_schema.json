@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SSP-API-Normalizer Input",
+  "description": "Raw SSP payload submitted for normalization.",
+  "type": "object",
+  "required": ["ssp_name", "raw_payload"],
+  "additionalProperties": false,
+  "properties": {
+    "ssp_name": {
+      "type": "string",
+      "description": "Human-readable name of the Supply-Side Platform (e.g. AppNexus, Rubicon, OpenX).",
+      "minLength": 1
+    },
+    "raw_payload": {
+      "type": "object",
+      "description": "Arbitrary JSON object returned by the SSP API. Field names and structure vary by platform.",
+      "additionalProperties": true
+    }
+  },
+  "examples": [
+    {
+      "ssp_name": "AppNexus",
+      "raw_payload": {
+        "date": "2024-01-15",
+        "impr": 10000,
+        "total_revenue": 25.50,
+        "requests": 12000
+      }
+    },
+    {
+      "ssp_name": "Rubicon",
+      "raw_payload": {
+        "date": "2024-01-15",
+        "requests": 5000,
+        "impressions": 4500,
+        "ecpm": 2.00
+      }
+    },
+    {
+      "ssp_name": "OpenX",
+      "raw_payload": {
+        "date": "01/15/2024",
+        "ad_requests": 8000,
+        "imps": 7500,
+        "rev": 18.75
+      }
+    }
+  ]
+}

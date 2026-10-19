@@ -1,0 +1,49 @@
+{
+  "skill_name": "ssp-api-normalizer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Normalize: {\"ssp_name\":\"AppNexus\",\"raw_payload\":{\"date\":\"2024-01-15\",\"impr\":10000,\"total_revenue\":25.50,\"requests\":12000}}",
+      "expected_output": "JSON object with normalized_data[0].date == \"2024-01-15\", impressions == 10000, revenue_usd == 25.50, ad_requests == 12000, and ecpm_usd calculated as 2.55.",
+      "files": [],
+      "expectations": [
+        "normalized_data[0].impressions == 10000",
+        "normalized_data[0].revenue_usd == 25.50",
+        "normalized_data[0].date == \"2024-01-15\"",
+        "normalized_data[0].ad_requests == 12000",
+        "normalized_data[0].ecpm_usd == 2.55",
+        "data_integrity_warnings contains a warning about ecpm_usd being calculated",
+        "Output is strictly valid JSON with no prose or markdown"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Normalize: {\"ssp_name\":\"Rubicon\",\"raw_payload\":{\"date\":\"2024-01-15\",\"requests\":5000,\"impressions\":4500,\"ecpm\":2.00}}",
+      "expected_output": "JSON object where revenue_usd is calculated as (2.00 / 1000) * 4500 = 9.00, with a warning that revenue was calculated from ecpm and impressions.",
+      "files": [],
+      "expectations": [
+        "normalized_data[0].revenue_usd == 9.00 or normalized_data[0].revenue_usd > 8.9",
+        "data_integrity_warnings contains at least one string mentioning revenue or calculated",
+        "normalized_data[0].ecpm_usd == 2.0",
+        "normalized_data[0].impressions == 4500",
+        "normalized_data[0].ad_requests == 5000",
+        "Output is strictly valid JSON with no prose or markdown"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Normalize: {\"ssp_name\":\"OpenX\",\"raw_payload\":{\"date\":\"01/15/2024\",\"ad_requests\":8000,\"imps\":7500,\"rev\":18.75}}",
+      "expected_output": "JSON object where date is reformatted from MM/DD/YYYY to 2024-01-15, impressions mapped from 'imps', revenue from 'rev', and ecpm_usd calculated as (18.75 / 7500) * 1000 = 2.50.",
+      "files": [],
+      "expectations": [
+        "normalized_data[0].date == \"2024-01-15\"",
+        "normalized_data[0].impressions == 7500",
+        "normalized_data[0].ad_requests == 8000",
+        "normalized_data[0].revenue_usd == 18.75",
+        "normalized_data[0].ecpm_usd == 2.5",
+        "data_integrity_warnings contains a warning about date being reformatted",
+        "Output is strictly valid JSON with no prose or markdown"
+      ]
+    }
+  ]
+}
