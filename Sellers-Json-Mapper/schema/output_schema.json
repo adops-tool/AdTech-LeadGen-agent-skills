@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sellers-Json-Mapper Output",
+  "type": "object",
+  "required": ["reconciliation_status", "domain_mismatches", "confidential_warnings"],
+  "properties": {
+    "reconciliation_status": {
+      "type": "string",
+      "enum": ["Passed", "Failed", "Warning"],
+      "description": "Overall reconciliation result. 'Failed' if any domain mismatch exists. 'Warning' if no mismatches but confidential sellers found. 'Passed' if fully clean."
+    },
+    "domain_mismatches": {
+      "type": "array",
+      "description": "Entries where the sellers.json domain does not match the publisher_domain, or where no sellers.json record was found.",
+      "items": {
+        "type": "object",
+        "required": ["ssp", "pub_id", "expected_domain", "found_domain"],
+        "properties": {
+          "ssp": {
+            "type": "string",
+            "description": "SSP name from the ads.txt entry."
+          },
+          "pub_id": {
+            "type": "string",
+            "description": "Publisher ID from the ads.txt entry."
+          },
+          "expected_domain": {
+            "type": "string",
+            "description": "The publisher_domain value that was expected."
+          },
+          "found_domain": {
+            "type": ["string", "null"],
+            "description": "The domain found in sellers.json. Null if no matching record was found."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "confidential_warnings": {
+      "type": "array",
+      "description": "Entries where is_confidential=1 in sellers.json — always flagged regardless of domain match.",
+      "items": {
+        "type": "object",
+        "required": ["ssp", "pub_id"],
+        "properties": {
+          "ssp": {
+            "type": "string",
+            "description": "SSP name from the ads.txt entry."
+          },
+          "pub_id": {
+            "type": "string",
+            "description": "Publisher ID from the ads.txt entry."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

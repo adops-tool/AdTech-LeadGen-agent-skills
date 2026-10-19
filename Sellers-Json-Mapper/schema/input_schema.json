@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sellers-Json-Mapper Input",
+  "type": "object",
+  "required": ["publisher_domain", "ads_txt_entries", "sellers_json_records"],
+  "properties": {
+    "publisher_domain": {
+      "type": "string",
+      "description": "The canonical domain of the publisher being audited (e.g. 'example.com')."
+    },
+    "ads_txt_entries": {
+      "type": "array",
+      "description": "List of entries parsed from the publisher's ads.txt file.",
+      "items": {
+        "type": "object",
+        "required": ["ssp", "pub_id", "relationship"],
+        "properties": {
+          "ssp": {
+            "type": "string",
+            "description": "Name of the SSP / ad exchange (e.g. 'AppNexus')."
+          },
+          "pub_id": {
+            "type": "string",
+            "description": "Publisher account ID as declared in ads.txt."
+          },
+          "relationship": {
+            "type": "string",
+            "enum": ["DIRECT", "RESELLER"],
+            "description": "Relationship type from the ads.txt entry."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "sellers_json_records": {
+      "type": "array",
+      "description": "List of seller records fetched from the SSP's sellers.json file.",
+      "items": {
+        "type": "object",
+        "required": ["ssp", "seller_id", "domain", "is_confidential"],
+        "properties": {
+          "ssp": {
+            "type": "string",
+            "description": "Name of the SSP / ad exchange matching ads_txt_entries.ssp."
+          },
+          "seller_id": {
+            "type": "string",
+            "description": "Seller identifier as declared in sellers.json."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Domain associated with this seller in sellers.json."
+          },
+          "is_confidential": {
+            "type": "integer",
+            "enum": [0, 1],
+            "description": "1 if the seller has requested confidentiality (transparency violation); 0 otherwise."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

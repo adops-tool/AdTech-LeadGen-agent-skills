@@ -1,0 +1,36 @@
+{
+  "skill_name": "Sellers-Json-Mapper",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Reconcile: {\"publisher_domain\":\"example.com\",\"ads_txt_entries\":[{\"ssp\":\"AppNexus\",\"pub_id\":\"123\",\"relationship\":\"DIRECT\"}],\"sellers_json_records\":[{\"ssp\":\"AppNexus\",\"seller_id\":\"123\",\"domain\":\"example.com\",\"is_confidential\":0}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "reconciliation_status == Passed",
+        "domain_mismatches length == 0",
+        "confidential_warnings length == 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Reconcile: {\"publisher_domain\":\"example.com\",\"ads_txt_entries\":[{\"ssp\":\"Rubicon\",\"pub_id\":\"456\",\"relationship\":\"DIRECT\"}],\"sellers_json_records\":[{\"ssp\":\"Rubicon\",\"seller_id\":\"456\",\"domain\":\"holding-group.com\",\"is_confidential\":0}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "reconciliation_status == Failed",
+        "domain_mismatches length > 0"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Reconcile: {\"publisher_domain\":\"news.com\",\"ads_txt_entries\":[{\"ssp\":\"OpenX\",\"pub_id\":\"789\",\"relationship\":\"DIRECT\"}],\"sellers_json_records\":[{\"ssp\":\"OpenX\",\"seller_id\":\"789\",\"domain\":\"news.com\",\"is_confidential\":1}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "reconciliation_status == Warning",
+        "confidential_warnings length > 0"
+      ]
+    }
+  ]
+}
