@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Tech-Docs-Refactor Output",
+  "description": "Refactored professional technical documentation in strict Markdown format.",
+  "type": "object",
+  "required": ["markdown"],
+  "properties": {
+    "markdown": {
+      "type": "string",
+      "description": "The refactored output as a Markdown string. Contains no JSON wrapper, no preamble, no meta-commentary. Uses imperative mood for instructions and declarative statements for descriptions. Free of emoji, exclamation marks, and prohibited marketing language.",
+      "minLength": 1
+    }
+  },
+  "constraints": {
+    "prohibited_patterns": [
+      "amazing", "awesome", "incredible", "fantastic",
+      "super fast", "blazing fast", "cutting-edge", "next-gen",
+      "state-of-the-art", "brand new", "groundbreaking",
+      "you will love it", "you'll enjoy",
+      "Hey guys", "Hey everyone",
+      "emoji characters",
+      "exclamation marks"
+    ],
+    "required_patterns": [
+      "At least one Markdown heading (## or ###) when input contains descriptive prose",
+      "Imperative mood for all instruction steps",
+      "Preserved verbatim: commands, file paths, version numbers, code blocks"
+    ]
+  },
+  "additionalProperties": false
+}

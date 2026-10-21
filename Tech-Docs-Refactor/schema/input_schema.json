@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Tech-Docs-Refactor Input",
+  "description": "Raw draft text or Markdown to be refactored into professional technical documentation.",
+  "type": "object",
+  "required": ["draft"],
+  "properties": {
+    "draft": {
+      "type": "string",
+      "description": "The raw input text or Markdown to refactor. May contain informal prose, marketing language, emoji, exclamation marks, or mixed formatting.",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,40 @@
+{
+  "skill_name": "tech-docs-refactor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Refactor: \"Hey guys! This is my super awesome script to check ads.txt. It's really fast and you will love it! Just type python run.py to start.\"",
+      "expected_output": "Professional Markdown documentation with a heading, a short declarative description of the tool, and a Usage section containing the command `python run.py`. No informal greetings, no superlatives, no emotional appeals.",
+      "files": [],
+      "assertions": [
+        "output not contains awesome",
+        "output not contains guys",
+        "output not contains love",
+        "output contains ## or output contains ###",
+        "output contains python run.py"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Refactor: \"Amazing Slack bot for monitoring! It's super fast and sends alerts instantly!\"",
+      "expected_output": "Professional Markdown description of a Slack monitoring bot. Uses declarative language. Contains at least one domain-relevant term (webhook, alert, or monitoring). No hype adjectives, no emoji, no exclamation marks.",
+      "files": [],
+      "assertions": [
+        "output not contains Amazing",
+        "output not contains emoji",
+        "output contains webhook or output contains alert or output contains monitoring"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor: \"Our brand new cutting-edge AI-powered data pipeline is really smart and processes stuff super quickly!\"",
+      "expected_output": "Professional Markdown description of an AI-powered data pipeline. Removes hype phrases, vague capability claims, and intensifiers. Retains the factual subject matter (pipeline, AI, data processing). Contains at least one of: pipeline, process.",
+      "files": [],
+      "assertions": [
+        "output not contains cutting-edge",
+        "output not contains super quickly",
+        "output contains pipeline or output contains process"
+      ]
+    }
+  ]
+}
