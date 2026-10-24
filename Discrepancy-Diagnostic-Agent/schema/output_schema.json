@@ -8,7 +8,7 @@
   "properties": {
     "discrepancy_percentage": {
       "type": "number",
-      "description": "Signed percentage by which SSP undercounts relative to GAM. Formula: ((gam - ssp) / gam) * 100, rounded to 2 decimal places. Negative if SSP overcounts.",
+      "description": "Signed percentage by which SSP undercounts relative to GAM. Formula: ((gam - ssp) / gam) * 100, rounded to 2 decimal places. Negative if SSP overcounts."
     },
     "status": {
       "type": "string",
