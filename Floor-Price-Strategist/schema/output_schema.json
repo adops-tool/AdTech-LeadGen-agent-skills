@@ -44,7 +44,8 @@
           "recommended_floor": {
             "type": "number",
             "description": "Recommended new floor price in USD (2 decimal places).",
-            "exclusiveMinimum": 0
+            "minimum": 0,
+            "exclusiveMinimum": true
           },
           "expected_fill_rate_change": {
             "type": "string",
