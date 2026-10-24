@@ -24,8 +24,7 @@
       "avg_cpm": {
         "type": "number",
         "description": "Current average CPM in USD over the measurement window.",
-        "minimum": 0,
-        "exclusiveMinimum": true
+        "exclusiveMinimum": 0
       },
       "fill_rate_percentage": {
         "type": "number",
