@@ -1,4 +1,6 @@
-# AdTech-LeadGen-Skills
+[![awesome-lead-generation](image/awesome-adops-Claude-skills_1.png)](https://github.com/adops-tool/AdTech-LeadGen-agent-skills/pulls)
+
+<img src="image/line-svg-3D444D-alg.svg" /> <!-- -SVG-Line- -->
 
 **Twenty-six schema-validated Agent Skills that turn raw ad-tech telemetry — ads.txt files, DOM fragments, SSP payloads, access logs — into deterministic, machine-consumable output, with zero runtime dependencies and zero vendor lock-in.**
 
